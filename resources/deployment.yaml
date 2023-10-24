@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: k8s-playground
+  name: k8s-playground
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-playground
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: k8s-playground
+    spec:
+      containers:
+      - image: ghcr.io/nikimoro-qlik/k8s_playground:dev
+        name: k8s-playground
