@@ -33,14 +33,10 @@ push-ghcr: build-docker
 .PHONY: build-run-local
 build-run-local: build-docker
 	kubectl delete -f resources/deployment.yaml --ignore-not-found=true
-	kubectl apply -f resources/deployment.yaml 
-	kubectl wait --for=condition=available deploy k8s-playground
-	kubectl logs -f -l app=k8s-playground
+	kubectl apply -f resources/deployment.yaml
 
 .PHONY: run-local
 run-local:
 	kubectl delete -f resources/deployment.yaml --ignore-not-found=true
-	kubectl apply -f resources/deployment.yaml 
-	kubectl wait --for=condition=available deploy k8s-playground
-	kubectl logs -f -l app=k8s-playground
+	kubectl apply -f resources/deployment.yaml
 

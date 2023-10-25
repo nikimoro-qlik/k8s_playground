@@ -72,14 +72,14 @@ func main() {
 	}
 
 	// main loop
-	ticker := time.NewTicker(time.Second * time.Duration(10))
+	ticker := time.NewTicker(time.Second * time.Duration(15))
+	defer ticker.Stop()
 main_loop:
 	for {
 		select {
 		case <-ticker.C:
 			// generate new random deletion cost
 			currentDeletionCost = rand.Intn(100)
-			log.GetLogger().Infow("New deletion cost", "podName", podName, "deletionCost", currentDeletionCost)
 
 			// update annotations
 			ann := pod.ObjectMeta.Annotations
@@ -101,10 +101,9 @@ main_loop:
 				log.GetLogger().Errorw("Error updating pod annotations", "podName", podName, "err", err)
 				break
 			}
-			log.GetLogger().Infow("Pod annotation updated", "podName", podName)
+			log.GetLogger().Infow("Pod annotation updated", "podName", podName, "deletionCost", currentDeletionCost)
 
 		case <-ctx.Done():
-			log.GetLogger().Infow("Context canceled", "podName", podName)
 			break main_loop
 		}
 	}
