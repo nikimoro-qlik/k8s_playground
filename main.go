@@ -64,13 +64,6 @@ func main() {
 	}
 	podService := client.CoreV1().Pods(podNamespace)
 
-	// extract target pod
-	pod, _ := podService.Get(ctx, podName, metav1.GetOptions{})
-	if err != nil {
-		log.GetLogger().Errorw("Unable to get pod object", "podName", podName, "err", err)
-		os.Exit(1)
-	}
-
 	// main loop
 	ticker := time.NewTicker(time.Second * time.Duration(15))
 	defer ticker.Stop()
@@ -82,13 +75,10 @@ main_loop:
 			currentDeletionCost = rand.Intn(100)
 
 			// update annotations
-			ann := pod.ObjectMeta.Annotations
-			if ann == nil {
-				ann = make(map[string]string)
-			}
-			ann[podDeletionCostAnnotation] = strconv.Itoa(currentDeletionCost)
 			var newMeta metaStruct
-			newMeta.Metadata.Annotations = ann
+			newMeta.Metadata.Annotations = map[string]string{
+				podDeletionCostAnnotation: strconv.Itoa(currentDeletionCost),
+			}
 			newMetaBytes, err := json.Marshal(newMeta)
 			if err != nil {
 				log.GetLogger().Errorw("Error marshalling annotations", "podName", podName, "err", err)
@@ -96,7 +86,7 @@ main_loop:
 			}
 
 			// update pod
-			_, err = podService.Patch(ctx, pod.ObjectMeta.Name, types.MergePatchType, newMetaBytes, metav1.PatchOptions{})
+			_, err = podService.Patch(ctx, podName, types.MergePatchType, newMetaBytes, metav1.PatchOptions{})
 			if err != nil {
 				log.GetLogger().Errorw("Error updating pod annotations", "podName", podName, "err", err)
 				break

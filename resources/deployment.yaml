@@ -13,6 +13,9 @@ spec:
   strategy: {}
   template:
     metadata:
+      annotations:
+        my-annotation: value
+        another-annotation: anothervalue
       labels:
         app: k8s-playground
     spec:
