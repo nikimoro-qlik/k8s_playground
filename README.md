@@ -3,7 +3,7 @@
 Before running you need to give permissions to service account:
 
 ```
-kubectl apply -f resources/clusterrole.yaml
+kubectl apply -f resources/serviceaccount.yaml
 ```
 
 To run inside a pod:

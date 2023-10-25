@@ -16,6 +16,7 @@ spec:
       labels:
         app: k8s-playground
     spec:
+      serviceAccountName: k8s-playground-sa
       containers:
       - image: ghcr.io/nikimoro-qlik/k8s_playground:dev
         name: k8s-playground
