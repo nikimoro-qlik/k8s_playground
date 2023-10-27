@@ -1,5 +1,7 @@
 # k8s playground
 
+k8s documentation [here](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#pod-deletion-cost).
+
 Before running you need to give permissions to service account:
 
 ```
