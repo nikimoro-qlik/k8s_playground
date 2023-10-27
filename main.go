@@ -23,12 +23,10 @@ const (
 	podDeletionCostAnnotation = "controller.kubernetes.io/pod-deletion-cost"
 )
 
-type annotationsStruct struct {
-	Annotations map[string]string `json:"annotations,omitempty"`
-}
-
 type metaStruct struct {
-	Metadata annotationsStruct `json:"metadata,omitempty"`
+	Metadata struct {
+		Annotations map[string]string `json:"annotations,omitempty"`
+	} `json:"metadata,omitempty"`
 }
 
 var (
